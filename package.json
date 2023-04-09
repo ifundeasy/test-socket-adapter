@@ -1,0 +1,23 @@
+{
+  "name": "test-socket.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@socket.io/mongo-adapter": "^0.3.0",
+    "@socket.io/redis-adapter": "^8.1.0",
+    "bluebird": "^3.7.2",
+    "dotenv": "^16.0.3",
+    "mongodb": "^5.2.0",
+    "ms-socket.io-adapter-amqp": "^9.0.1",
+    "redis": "^4.6.5",
+    "socket.io": "^4.6.1",
+    "socket.io-amqp": "^2.0.0",
+    "socket.io-client": "^4.6.1"
+  }
+}
