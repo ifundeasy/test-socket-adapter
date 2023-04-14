@@ -15,4 +15,5 @@ done
 RDIR=$( dirname "$SOURCE" )
 DIR=$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )
 
-docker stack deploy -c $DIR/../docker-compose.yaml socket-adapter
+cd $DIR/..
+docker-compose up -d
