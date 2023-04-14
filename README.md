@@ -1,20 +1,12 @@
 # test-socket-adapter
 
-## Run server
-command line
+## Terminal
+Socket server
 ```sh
 node src/server.js [socket-port] [adapter]
 ```
 
-docker
-```sh
-./bin/build.sh
-./bin/deploy.sh
-./bin/remove.sh
-```
-
-## Run client
-command line
+Socket client
 ```sh
 node src/clients.js [socket-port] [max-user] [delay-miliseconds]
 ```
@@ -37,7 +29,8 @@ Stop services
 bash bin/remove.sh
 ```
 
-## Single thread scenario
+## Test case
+> `scenario: single thread`
 
 > In this test case Redis/MongoDB/RabbitMQ runs on same local machine under docker. Docker resource allocation is `4 Core`, `4GB RAM`, and `2GB Swap`.
 
