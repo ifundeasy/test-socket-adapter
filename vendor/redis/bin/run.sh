@@ -1,0 +1,1 @@
+docker run -dt --name tsa-redis -p 6379:6379 tsa-redis

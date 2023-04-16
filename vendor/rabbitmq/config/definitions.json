@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "name": "guest",
+      "password": "t5t4ZpOOeW1JfPDp",
+      "tags": "administrator"
+    }
+  ],
+  "vhost": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "parameters": [],
+  "policies": []
+}

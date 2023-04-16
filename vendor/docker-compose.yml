@@ -1,0 +1,93 @@
+version: '3.7'
+
+services:
+  tsa-mongodb:
+    container_name: tsa-mongodb
+    image: tsa-mongodb
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: t5t4ZpOOeW1JfPDp
+    ports:
+      - 27017:27017
+    networks:
+      - network-tsa
+    depends_on:
+      - tsa-mongodb-repl-1
+      - tsa-mongodb-repl-2
+    links:
+      - tsa-mongodb-repl-1
+      - tsa-mongodb-repl-2
+    restart: always
+    healthcheck:
+      test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u mongo -p mongo --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+    entrypoint: [ "/usr/bin/mongod", "--keyFile", "/cert/file.key", "--replSet", "rs0", "--journal", "--bind_ip_all" ]
+    volumes:
+      - ./mongodb/cert/file.key:/cert/file.key
+      - ./mongodb/scripts/replicaset-init.sh:/scripts/replicaset-init.sh
+      - ./mongodb/scripts/check-login.sh:/scripts/check-login.sh
+
+  tsa-mongodb-repl-1:
+    container_name: tsa-mongodb-repl-1
+    image: tsa-mongodb
+    ports:
+      - 27018:27017
+    networks:
+      - network-tsa
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--keyFile", "/cert/file.key", "--replSet", "rs0", "--journal", "--bind_ip_all" ]
+    volumes:
+      - ./mongodb/cert/file.key:/cert/file.key
+      - ./mongodb/scripts/replicaset-init.sh:/scripts/replicaset-init.sh
+      - ./mongodb/scripts/check-login.sh:/scripts/check-login.sh
+
+  tsa-mongodb-repl-2:
+    container_name: tsa-mongodb-repl-2
+    image: tsa-mongodb
+    ports:
+      - 27019:27017
+    networks:
+      - network-tsa
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--keyFile", "/cert/file.key", "--replSet", "rs0", "--journal", "--bind_ip_all" ]
+    volumes:
+      - ./mongodb/cert/file.key:/cert/file.key
+      - ./mongodb/scripts/replicaset-init.sh:/scripts/replicaset-init.sh
+      - ./mongodb/scripts/check-login.sh:/scripts/check-login.sh
+
+  tsa-redis:
+    container_name: tsa-redis
+    image: tsa-redis
+    ports:
+      - 6379:6379
+    networks:
+      - network-tsa
+    # volumes:
+    #   - /opt/shared/tsa/redis-data:/data
+
+  tsa-postgres:
+    container_name: tsa-postgres
+    image: tsa-postgres
+    ports:
+      - 5432:5432
+    networks:
+      - network-tsa
+    environment:
+      POSTGRES_USER: chat
+      POSTGRES_PASSWORD: t5t4ZpOOeW1JfPDp
+
+  tsa-rabbitmq:
+    container_name: tsa-rabbitmq
+    image: tsa-rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - network-tsa
+    # volumes:
+    #   - /opt/shared/tsa/rabbitmq:/opt/shared/tsa/rabbitmq
+
+networks:
+  network-tsa:
+    driver: bridge

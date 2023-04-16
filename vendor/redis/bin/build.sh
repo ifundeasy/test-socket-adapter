@@ -1,0 +1,1 @@
+docker build --rm -t tsa-redis -f ./Dockerfile .
